@@ -1,74 +1,70 @@
 ﻿using System.IO;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace KsiazkaWPF
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        int i = 1;
+        int i = 1; // aktualna lewa strona (0 = tytuł)
+        Ksiazka ksiazka;
+        int liczbaStron;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            string daneZPliku = File.ReadAllText(@"C:\Users\Alek\Desktop\dane.txt");
+            string[] tablicaStron = daneZPliku.Split(';');
+
+            ksiazka = new Ksiazka(tablicaStron[0]); // tytuł
+
+            for (int j = 1; j < tablicaStron.Length; j++)
+            {
+                ksiazka.DodajStrone(tablicaStron[j]);
+            }
+
+            liczbaStron = ksiazka.strony.Count - 1;
+
+            tytulLabel.Content = "Tytuł książki: " + tablicaStron[0];
+
             tylButton.Content = "<<<";
             przodButton.Content = ">>>";
 
-           
+            PokazStrony();
         }
 
-        private void przodButton_Click(object sender, RoutedEventArgs e)
+        private void HandleChange(object sender, RoutedEventArgs e)
         {
-            string daneZPliku = File.ReadAllText(@"C:\Users\Student\Desktop\dane.txt");
-            string[] tablicaStron = daneZPliku.Split(';');
+            Button btn = sender as Button;
 
-            Ksiazka ksiazka = new Ksiazka(tablicaStron[0]);
-
-            for (int i = 1; i < tablicaStron.Length; i++)
+            if (btn == przodButton)
             {
-                ksiazka.DodajStrone(tablicaStron[i]);
+                if (i + 1 < ksiazka.strony.Count)
+                    i += 2;
+            }
+            else if (btn == tylButton)
+            {
+                if (i - 2 >= 1)
+                    i -= 2;
             }
 
-            tytulLabel.Content = "Tytuł książki: " + ksiazka.strony[0].trescStrony;
-
-            lewaTextBlock.Text = ksiazka.strony[i].trescStrony;
-            prawaTextBlock.Text = ksiazka.strony[i + 1].trescStrony;
-            i += 2;
+            PokazStrony();
         }
 
-        private void tylButton_Click(object sender, RoutedEventArgs e)
+        private void PokazStrony()
         {
-            i -= 2;
-            string daneZPliku = File.ReadAllText(@"C:\Users\Student\Desktop\dane.txt");
-            string[] tablicaStron = daneZPliku.Split(';');
-
-            Ksiazka ksiazka = new Ksiazka(tablicaStron[0]);
-
-            for (int i = 1; i < tablicaStron.Length; i++)
-            {
-                ksiazka.DodajStrone(tablicaStron[i]);
-            }
-
-            tytulLabel.Content = "Tytuł książki: " + ksiazka.strony[0].trescStrony;
-
             lewaTextBlock.Text = ksiazka.strony[i].trescStrony;
-            prawaTextBlock.Text = ksiazka.strony[i + 1].trescStrony;
-            
-        }
 
-        private void HandleChange(object sender, TextChangedEventArgs e)
-        {
-            
+            if (i + 1 < ksiazka.strony.Count)
+                prawaTextBlock.Text = ksiazka.strony[i + 1].trescStrony;
+            else
+                prawaTextBlock.Text = "";
+
+            int lewa = i;
+            int prawa = (i + 1 < ksiazka.strony.Count) ? i + 1 : i;
+
+            stronyLabel.Content = $"Strony {lewa},{prawa} / {liczbaStron}";
         }
     }
 }

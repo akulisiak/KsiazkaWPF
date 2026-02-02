@@ -11,8 +11,8 @@
         <Rectangle Height="350" Margin="410,0,139,0" Stroke="Black" VerticalAlignment="Center" RadiusX="10" RadiusY="10" />
         <Label Name="tytulLabel" Content="Tytuł:" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
         <Label Name="stronyLabel" Content="Strony: " HorizontalAlignment="Center" Margin="0,402,0,0" VerticalAlignment="Top"/>
-        <Button Name="tylButton" Content="" HorizontalAlignment="Left" Margin="50,0,0,0" VerticalAlignment="Center" Click="tylButton_Click" />
-        <Button Name="przodButton" Content="" HorizontalAlignment="Left" Margin="710,0,0,0" VerticalAlignment="Center" Click="przodButton_Click"/>
+        <Button Name="tylButton" Content="" HorizontalAlignment="Left" Margin="50,0,0,0" VerticalAlignment="Center" Click="HandleChange" />
+        <Button Name="przodButton" Content="" HorizontalAlignment="Left" Margin="710,0,0,0" VerticalAlignment="Center" Click="HandleChange"/>
         <TextBlock Name="lewaTextBlock" HorizontalAlignment="Left" Margin="160,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Height="320" Width="215"/>
         <TextBlock Name="prawaTextBlock" HorizontalAlignment="Left" Margin="428,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Height="320" Width="215"/>
 
